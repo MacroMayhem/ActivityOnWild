@@ -1,0 +1,6 @@
+horses
+horse
+horseriding
+equine
+equestrian
+showjumping

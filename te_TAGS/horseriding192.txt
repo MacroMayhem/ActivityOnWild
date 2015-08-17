@@ -1,0 +1,4 @@
+equestrian
+horse
+horseriding
+jumping

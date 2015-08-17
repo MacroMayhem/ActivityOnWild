@@ -1,0 +1,8 @@
+horse
+horses
+magic
+galloping
+gallop
+jumping
+jump
+horseriding

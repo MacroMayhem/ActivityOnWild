@@ -1,0 +1,4 @@
+#soclose
+#nospare
+#bowling
+#mainevent

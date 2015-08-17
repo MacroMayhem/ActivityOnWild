@@ -1,0 +1,37 @@
+
+    UCFClass = 'bowling';
+    [Ac, iterations, vidJump, annDir, bofDir, tagDir, word2vecFile, vinePosList,vinePosList2,vinePosList3, tr_vineAllList, tr_AllTagList, stage_I_thresh] = initStage(UCFClass);
+    TopSelectedVids = containers.Map;
+    avoidMap = containers.Map;
+    [TrainSet, orgTrainLabels] = readTrainingSet(UCFClass,vidJump);
+    [vinePosMap] = readVinePos(annDir,vinePosList,vinePosList2,vinePosList3);
+    [TestSet, TrainLabels, TrainSet, TestOrder, vinePosMap] = readVineSet(orgTrainLabels, TrainSet, TopSelectedVids,avoidMap,tr_vineAllList,vinePosMap,bofDir);
+    [TestLabels] = genTestLabels(vinePosMap, TestOrder);
+    
+%     X_2 = [];
+     X_2 = horzcat(TrainSet,TestSet);
+     X = X_2';
+%     load('X_ITML','X_2');
+    y = vertcat(TrainLabels,TestLabels);
+    A_0 = eye(size(X, 2));
+    params = SetDefaultParams(params);   
+    A = ItmlAlg(C, X, A_0, params);
+    
+    num_constraints = 
+    m = length(y);
+    C = zeros(num_constraints, 4);
+
+    for (k=1:num_constraints),
+        i = ceil(rand * m);
+        j = ceil(rand * m);
+        if (y(i) == y(j)),
+            C(k,:) = [i j 1 l];
+        else
+            C(k,:) = [i j -1 u];
+        end
+    end
+    num_folds = 2;
+    knn_neighbor_size = 4;
+    acc = CrossValidateKNN(y, X, @(y,X) MetricLearningAutotuneKnn(@ItmlAlg, y, X), num_folds, knn_neighbor_size);
+
+    disp(sprintf('kNN cross-validated accuracy = %f', acc));

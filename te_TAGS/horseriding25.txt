@@ -1,0 +1,8 @@
+horseriding
+equestrian
+cantering
+jumping
+showjumping
+horses
+horsevines
+horseedit

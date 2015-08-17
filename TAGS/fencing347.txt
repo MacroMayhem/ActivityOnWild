@@ -1,0 +1,3 @@
+#loop
+#motion
+#fencing
